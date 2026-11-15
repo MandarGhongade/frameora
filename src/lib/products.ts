@@ -38,21 +38,23 @@ export const rowToFrame = (r: ProductRow): Frame => ({
   featured: r.featured ?? false,
 });
 
+/** Visible products from Supabase, or null when it isn't configured / can't be reached. */
+export async function fetchProducts(): Promise<Frame[] | null> {
+  const sb = getSupabase();
+  if (!sb) return null;
+  const { data, error } = await sb.from("products").select("*").eq("active", true).order("sort").order("created_at");
+  if (error) {
+    console.error("[products] Supabase read failed:", error.message);
+    return null;
+  }
+  return (data as ProductRow[]).map(rowToFrame);
+}
+
 /**
  * All products visible on the store. Reads Supabase when it's configured;
  * otherwise (or if the database can't be reached) falls back to the built-in list in data.ts.
  */
 export async function getProducts(): Promise<Frame[]> {
-  const sb = getSupabase();
-  if (!sb) return FRAMES;
-  const { data, error } = await sb.from("products").select("*").eq("active", true).order("sort").order("created_at");
-  if (error) {
-    console.error("[products] Supabase read failed, using built-in catalogue:", error.message);
-    return FRAMES;
-  }
-  return (data as ProductRow[]).map(rowToFrame);
+  return (await fetchProducts()) ?? FRAMES;
 }
 
-export async function getProduct(slug: string): Promise<Frame | undefined> {
-  return (await getProducts()).find((f) => f.slug === slug);
-}

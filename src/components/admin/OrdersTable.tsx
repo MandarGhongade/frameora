@@ -26,7 +26,7 @@ export function OrdersTable({ orders }: { orders: Order[] }) {
           {orders.map((o) => (
             <tr key={o.id} className="border-line hover:bg-cream/50 border-b transition-colors last:border-0">
               <td className="px-5 py-4">
-                <Link href={`/admin/orders/${o.id}`} className="font-semibold hover:underline">#{o.id}</Link>
+                <Link href={`/admin/orders/view?id=${encodeURIComponent(o.id)}`} className="font-semibold hover:underline">#{o.id}</Link>
                 <div className="text-muted text-xs">{new Date(o.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</div>
               </td>
               <td className="px-5 py-4">

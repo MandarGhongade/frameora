@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Check, PartyPopper, MessageCircle, Printer, Frame as FrameIcon, Truck, Home, ClipboardCheck } from "lucide-react";
@@ -8,7 +8,6 @@ import { useStore, STATUSES } from "@/lib/store";
 import { FINISHES, borderLabel } from "@/lib/data";
 import { inr } from "@/lib/site";
 import { ItemThumb } from "@/components/ItemThumb";
-import { useEffect, useState } from "react";
 
 const ICONS = [ClipboardCheck, Printer, FrameIcon, Truck, Home];
 const COPY = [
@@ -19,11 +18,11 @@ const COPY = [
   "Delivered. We hope it looks beautiful on your wall.",
 ];
 
-export default function OrderDetail() {
-  const { id } = useParams<{ id: string }>();
+export function OrderDetail() {
+  const params = useSearchParams();
+  const id = params.get("id") ?? "";
+  const isNew = params.has("new");
   const { orders, ready } = useStore();
-  const [isNew, setIsNew] = useState(false);
-  useEffect(() => setIsNew(new URLSearchParams(window.location.search).has("new")), []);
 
   if (!ready) return <div className="min-h-[60vh]" />;
   const o = orders.find((x) => x.id === id);

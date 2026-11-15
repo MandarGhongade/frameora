@@ -34,6 +34,25 @@ Without this the site still works, using the built-in products in `src/lib/data.
 
 Only accounts in the `admins` table can add, edit or delete products; this is enforced by the database itself.
 
+## Live website (GitHub Pages)
+
+Live at **https://mandarghongade.github.io/frameora/**. Every push to `main` rebuilds and publishes it
+automatically (`.github/workflows/deploy.yml`, takes ~2 minutes — watch it in the **Actions** tab).
+
+The site is fully static: pages are built once, and products are loaded live from Supabase in the
+visitor's browser, so products added in the admin appear immediately without a rebuild.
+
+One-time setup (already done if the site is live):
+1. **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+2. **Settings → Secrets and variables → Actions → Variables tab → New repository variable**, add both:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (the publishable / anon key — never the secret key)
+3. **Actions → Deploy to GitHub Pages → Run workflow** (or just push a commit).
+
+Addresses: product pages are `/frame/?p=<product>`, orders are `/orders/view/?id=<order>`.
+
+Test the production build locally: `npm run build` creates the `out/` folder.
+
 ## Change things quickly
 
 | What | Where |

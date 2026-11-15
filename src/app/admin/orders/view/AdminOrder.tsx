@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Download, MessageCircle, Printer } from "lucide-react";
 import { useStore, STATUSES } from "@/lib/store";
 import { ADDONS, FINISHES, borderLabel } from "@/lib/data";
@@ -9,8 +9,8 @@ import { inr } from "@/lib/site";
 import { StatusPill } from "@/components/StatusPill";
 import { ItemThumb } from "@/components/ItemThumb";
 
-export default function AdminOrder() {
-  const { id } = useParams<{ id: string }>();
+export function AdminOrder() {
+  const id = useSearchParams().get("id") ?? "";
   const { orders, setStatus, ready } = useStore();
   if (!ready) return null;
   const o = orders.find((x) => x.id === id);

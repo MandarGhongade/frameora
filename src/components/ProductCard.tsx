@@ -1,12 +1,12 @@
 import Link from "next/link";
 import type { Frame } from "@/lib/data";
-import { FINISHES, fromPrice } from "@/lib/data";
+import { FINISHES, fromPrice, productHref } from "@/lib/data";
 import { inr } from "@/lib/site";
 import { FramedPhoto, ratioOf } from "./FramedPhoto";
 
 export function ProductCard({ f }: { f: Frame }) {
   return (
-    <Link href={`/frame/${f.slug}`} className="group block">
+    <Link href={productHref(f.slug)} className="group block">
       <div className="bg-cream relative grid aspect-[4/5] place-items-center overflow-hidden rounded-sm transition-colors duration-700 group-hover:bg-sand">
         {f.badge && (
           <span className="bg-paper/90 absolute left-3 top-3 z-10 rounded-full px-3 py-1 text-[11px] font-semibold tracking-wide">{f.badge}</span>

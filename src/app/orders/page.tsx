@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Search } from "lucide-react";
 import { useStore } from "@/lib/store";
+import { orderHref } from "@/lib/data";
 import { inr } from "@/lib/site";
 import { StatusPill } from "@/components/StatusPill";
 import { ItemThumb } from "@/components/ItemThumb";
@@ -19,7 +20,7 @@ export default function Orders() {
   const find = (e: React.FormEvent) => {
     e.preventDefault();
     const id = q.trim().toUpperCase();
-    if (orders.some((o) => o.id === id)) router.push(`/orders/${id}`);
+    if (orders.some((o) => o.id === id)) router.push(orderHref(id));
     else setErr("We couldn't find that order. Check the ID in your confirmation message.");
   };
 
@@ -38,7 +39,7 @@ export default function Orders() {
       <ul className="space-y-4">
         {mine.map((o) => (
           <li key={o.id}>
-            <Link href={`/orders/${o.id}`} className="border-line hover:bg-cream group flex items-center gap-5 rounded-2xl border p-4 transition-colors duration-500">
+            <Link href={orderHref(o.id)} className="border-line hover:bg-cream group flex items-center gap-5 rounded-2xl border p-4 transition-colors duration-500">
               <ItemThumb item={o.items[0]} className="w-20" />
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-3">

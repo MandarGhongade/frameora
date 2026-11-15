@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Images, Loader2, Pencil, Plus, Star, Trash2 } from "lucide-react";
-import { FRAMES, FINISHES, getArtStyle, getCategory, type Frame } from "@/lib/data";
+import { FRAMES, FINISHES, getArtStyle, getCategory, productHref, type Frame } from "@/lib/data";
 import { rowToFrame, type ProductRow } from "@/lib/products";
 import { getSupabase, PRODUCT_IMAGES_BUCKET, supabaseConfigured } from "@/lib/supabase";
 import { inr } from "@/lib/site";
@@ -164,7 +164,7 @@ function ProductTile({ f, hidden, children }: { f: Frame; hidden?: boolean; chil
         </p>
         <p className="text-muted mt-1 truncate text-xs">{f.finishes.map((x) => FINISHES[x]?.name ?? x).join(", ")}</p>
         {!hidden && (
-          <Link href={`/frame/${f.slug}`} target="_blank" className="link-underline text-muted mt-1 inline-block text-xs">
+          <Link href={productHref(f.slug)} target="_blank" className="link-underline text-muted mt-1 inline-block text-xs">
             View on site
           </Link>
         )}

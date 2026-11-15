@@ -6,6 +6,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import { Lock, Smartphone, Banknote, Loader2 } from "lucide-react";
 import { useStore, type Address } from "@/lib/store";
+import { orderHref } from "@/lib/data";
 import { inr, site } from "@/lib/site";
 import { ItemThumb } from "@/components/ItemThumb";
 
@@ -57,7 +58,7 @@ export default function Checkout() {
     // DEMO: Razorpay checkout will open here. We simulate a successful payment.
     await new Promise((r) => setTimeout(r, pay === "Prepaid" ? 1800 : 900));
     const order = placeOrder(a, pay);
-    router.push(`/orders/${order.id}?new=1`);
+    router.push(orderHref(order.id) + "&new=1");
   };
 
   return (

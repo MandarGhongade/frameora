@@ -284,12 +284,16 @@ export const ADDONS = [
 
 export type AddonId = (typeof ADDONS)[number]["id"];
 
-/** Built-in catalogue only. Pages should use getProducts()/getProduct() from @/lib/products. */
+/** Built-in catalogue only. Pages should use getProducts() / useLiveProducts(). */
 export const getFrame = (slug: string) => FRAMES.find((f) => f.slug === slug);
 export const getCategory = (slug: string) => CATEGORIES.find((c) => c.slug === slug);
 export const fromPrice = (f: Frame) => Math.min(...f.sizes.map((s) => s.price));
 /** Short label for the border choice on an order line ("" for old items without one). */
 export const borderLabel = (mat?: boolean) => (mat === undefined ? "" : mat ? " · White border" : " · No border");
+
+/** Links work on static hosting (GitHub Pages): product & order pages read their id from the address. */
+export const productHref = (slug: string) => `/frame?p=${encodeURIComponent(slug)}`;
+export const orderHref = (id: string) => `/orders/view?id=${encodeURIComponent(id)}`;
 
 export const getArtStyle = (slug: string) => ART_STYLES.find((s) => s.slug === slug);
 export const getStyleGroup = (slug: string) => ART_STYLE_GROUPS.find((g) => g.styles.some((s) => s.slug === slug));

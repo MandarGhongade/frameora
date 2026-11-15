@@ -143,7 +143,7 @@ export function ProductForm({ initial, isNew, onDone, onCancel }: { initial: Pro
     const { error } = isNew ? await sb.from("products").insert(row) : await sb.from("products").update(row).eq("slug", initial.slug);
     setSaving(false);
     if (error) {
-      if (error.code === "23505") return setErr(`A product with the address "/frame/${row.slug}" already exists. Change the web address.`);
+      if (error.code === "23505") return setErr(`A product with the web address "${row.slug}" already exists. Change the web address.`);
       if (error.code === "42501") return setErr("Not allowed — this account isn't in the admins list.");
       return setErr(error.message);
     }
@@ -176,7 +176,7 @@ export function ProductForm({ initial, isNew, onDone, onCancel }: { initial: Pro
             </Field>
             <Field label="Web address" hint={isNew ? "Auto-filled from the name. Can't be changed later." : "Can't be changed after the product is created."}>
               <div className="border-line flex items-center overflow-hidden rounded-xl border bg-white text-sm focus-within:border-ink">
-                <span className="text-muted bg-cream px-3 py-2.5">/frame/</span>
+                <span className="text-muted bg-cream px-3 py-2.5">?p=</span>
                 <input
                   className="w-full px-3 py-2.5 outline-none disabled:opacity-60"
                   value={p.slug}
